@@ -1,0 +1,88 @@
+﻿<Window x:Class="GameOfLife.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife"
+        Icon="Graphics/circle.png"
+        mc:Ignorable="d"
+        Title="Game Of Life" Height="800" Width="615" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <DockPanel Name="TopMenuBar">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Settings">
+                <MenuItem Header="Save" Click="Save_OnClick" />
+                <Separator />
+                <MenuItem Header="Load" Click="Load_OnClick" />
+                <Separator />
+                <MenuItem Header="Exit" Click="Exit_OnClick" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Cut" />
+                <MenuItem Command="Copy" />
+                <MenuItem Command="Paste" />
+            </MenuItem>
+        </Menu>
+
+        <Grid DockPanel.Dock="Top" Name="GridGameSpace" Background="White" Width="600" Height="600" />
+
+        <Grid DockPanel.Dock="Bottom" Name="GridConsolePanel" Height="200" Width="600">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Canvas Grid.Column="0" Background="Gainsboro">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,10,0,10">
+                        <TextBlock DockPanel.Dock="Right">Board Size</TextBlock>
+                        <TextBox
+                            Text="{Binding ElementName=sliderBoardSize, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                            DockPanel.Dock="Right" TextAlignment="Right" Width="20" Height="20" />
+                        <TextBlock DockPanel.Dock="Right">x</TextBlock>
+                        <TextBox
+                            Text="{Binding ElementName=sliderBoardSize, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                            DockPanel.Dock="Right" TextAlignment="Right" Width="20" Height="20" />
+                        <Slider Minimum="5" Maximum="50" TickPlacement="BottomRight" TickFrequency="1"
+                                IsSnapToTickEnabled="True" Name="sliderBoardSize" Width="190" Value="{Binding BoardSize}"
+                                 />
+
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Bottom">
+                    <Button DockPanel.Dock="Left" Name="ClearButton" Height="40" Width="110" Margin="10,10,10,10"
+                            Click="ClearButton_OnClick">
+                        Clear
+                    </Button>
+                        <Button DockPanel.Dock="Right" Name="RandomButton" Height="40" Width="120" Margin="10,10,10,10" Click="RandomButton_OnClick" >Random Distribution</Button>
+                    </DockPanel>
+                </DockPanel>
+            </Canvas>
+            <Canvas Grid.Column="1" Background="Silver">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Name="NextGeneration" VerticalAlignment="Top" Height="30" Margin="10,10,5,30"
+                                Click="NextGeneration_OnClick">
+                            Next Generation
+                        </Button>
+                        <Button Name="AutomaticGeneretionsButton" VerticalAlignment="Top" Height="30" Margin="5,10,5,30" FontSize="10"
+                                Click="AutomaticGeneretions_OnClick">
+                            Automatic Generations
+                        </Button>
+                        <Button Name="StopButton" VerticalAlignment="Top" Height="30" Width="60" Margin="5,10,10,30" Click="StopButton_OnClick">Stop</Button>
+                    </StackPanel>
+                    <DockPanel DockPanel.Dock="Bottom">
+                        <TextBlock DockPanel.Dock="Right">sec</TextBlock>
+                        <TextBox
+                            Text="{Binding ElementName=frequencyOfChangingGenerations, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                            DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                        <Slider Minimum="0.05" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.05"
+                                IsSnapToTickEnabled="True" Name="frequencyOfChangingGenerations" Value="{Binding TimeInterval}"/>
+
+                    </DockPanel>
+                </DockPanel>
+            </Canvas>
+        </Grid>
+
+    </DockPanel>
+
+
+</Window>
