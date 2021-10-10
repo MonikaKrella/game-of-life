@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 
-
 namespace GameOfLife
 {
     public partial class MainWindow
@@ -12,9 +11,9 @@ namespace GameOfLife
         {
             InitializeComponent();
             gameManager = new GameManager(GridGameSpace);
-            
+
             gameManager.TimeInterval = frequencyOfChangingGenerations.Minimum;
-            gameManager.BoardSize = (int)sliderBoardSize.Minimum;
+            gameManager.BoardSize = (int) sliderBoardSize.Minimum;
             DataContext = gameManager;
         }
 
@@ -32,7 +31,7 @@ namespace GameOfLife
         {
             Close();
         }
-        
+
         private void AutomaticGeneretions_OnClick(object sender, RoutedEventArgs e)
         {
             AutomaticGeneretionsButton.IsEnabled = false;
@@ -60,7 +59,7 @@ namespace GameOfLife
             GameSettings gameSettings = saveAndLoadManager.Load<GameSettings>();
             if (gameSettings != null)
             {
-              gameManager.InitializeGameFromSettings(gameSettings);  
+                gameManager.InitializeGameFromSettings(gameSettings);
             }
         }
     }

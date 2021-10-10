@@ -10,12 +10,11 @@ namespace GameOfLife
         private const int TWO_NEIGHBOURS_FROM_RULES = 2;
         private readonly SolidColorBrush COLOR_OF_DEAD_CELL = Brushes.White;
         private readonly SolidColorBrush COLOR_OF_ALIVE_CELL = Brushes.Black;
-        
+
         private int X { get; set; }
         private int Y { get; set; }
         public bool IsAlive { get; private set; }
         private bool ShoulBecomeAlive { get; set; }
-        
 
 
         public Cell()
@@ -34,7 +33,7 @@ namespace GameOfLife
         }
 
         //======METHODS==============================================================================================
-        
+
         public void SetupDefaultCoordinates(int i, int j)
         {
             X = j;
@@ -44,7 +43,7 @@ namespace GameOfLife
             Grid.SetRow(this, i);
         }
 
-        public void CheckStatusForNextGeneration(List<List<Cell>> listOfCells)
+        public void CheckStatusForNextGeneration(IReadOnlyList<IReadOnlyList<Cell>> listOfCells)
         {
             List<Cell> listOfAliveNeighbours = new List<Cell>();
 
@@ -98,7 +97,8 @@ namespace GameOfLife
             {
                 ShoulBecomeAlive = true;
             }
-            else if (IsAlive == true && (listOfAliveNeighbours.Count == THREE_NEIGHBOURS_FROM_RULES || listOfAliveNeighbours.Count == TWO_NEIGHBOURS_FROM_RULES))
+            else if (IsAlive == true && (listOfAliveNeighbours.Count == THREE_NEIGHBOURS_FROM_RULES ||
+                                         listOfAliveNeighbours.Count == TWO_NEIGHBOURS_FROM_RULES))
             {
                 ShoulBecomeAlive = true;
             }

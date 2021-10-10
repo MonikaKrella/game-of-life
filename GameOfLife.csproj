@@ -56,6 +56,7 @@
             <SubType>Designer</SubType>
         </ApplicationDefinition>
         <Compile Include="GameSettings.cs" />
+        <Compile Include="Properties\Annotations.cs" />
         <Compile Include="RandomCellsDistribution.cs" />
         <Compile Include="SaveAndLoadManager.cs" />
         <Page Include="MainWindow.xaml">

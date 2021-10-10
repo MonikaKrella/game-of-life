@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using GameOfLife.Annotations;
 
 namespace GameOfLife
 {
-    public class GameManager
+    public class GameManager : INotifyPropertyChanged
     {
         private const int MILISECONDS_IN_SECOND = 1000;
-        
+
         //=======PROPERTY & CLASS FIELDS===============================================================================
         private readonly Grid gridGameSpaceReference;
         private readonly List<List<Cell>> listOfCells = new List<List<Cell>>();
@@ -17,40 +20,37 @@ namespace GameOfLife
 
         private int _boardSize;
 
-        public int BoardSize 
+        public int BoardSize
         {
-            get
-            {
-                return _boardSize;
-            }
+            get { return _boardSize; }
             set
             {
                 _boardSize = value;
+                OnPropertyChanged();
                 FitBoardToCurrentSize();
             }
         }
 
         private double _timeInterval;
+
         public double TimeInterval
         {
-            get
-            {
-                return _timeInterval;
-            }
+            get { return _timeInterval; }
             set
             {
                 _timeInterval = value;
+                OnPropertyChanged();
                 timer.Interval = (int) (TimeInterval * MILISECONDS_IN_SECOND);
             }
         }
-        
+
         //=====CONSTRUCTOR=============================================================================================
         public GameManager(Grid argGridGameSpace)
         {
             gridGameSpaceReference = argGridGameSpace;
-            timer.Tick += (o, args) => {CreateNewGeneration(); };
+            timer.Tick += (o, args) => { CreateNewGeneration(); };
         }
-        
+
         //======METHODS==============================================================================================
 
         public void StartTimer()
@@ -65,9 +65,9 @@ namespace GameOfLife
 
         public void DistributeCellsRandomly()
         {
-           randomDistribution.MakeRandomDistributionOfAliveCells(listOfCells);
+            randomDistribution.MakeRandomDistributionOfAliveCells(listOfCells);
         }
-        
+
         public void CreateNewGeneration()
         {
             foreach (Cell cell in gridGameSpaceReference.Children.OfType<Cell>())
@@ -83,14 +83,14 @@ namespace GameOfLife
 
         private void FitBoardToCurrentSize()
         {
-            int newValue = BoardSize;
-            int oldValue = listOfCells.Count;
+            int newBoardSize = BoardSize;
+            int oldBoardSize = listOfCells.Count;
             gridGameSpaceReference.ShowGridLines = true;
-            int differenceOldVsNewValue = newValue - oldValue;
+            int differenceOfBoardSize = newBoardSize - oldBoardSize;
 
-            if (differenceOldVsNewValue > 0)
+            if (differenceOfBoardSize > 0)
             {
-                for (int i = 0; i < differenceOldVsNewValue; i++)
+                for (int i = 0; i < differenceOfBoardSize; i++)
                 {
                     RowDefinition rowDefinition = new RowDefinition();
                     gridGameSpaceReference.RowDefinitions.Add(rowDefinition);
@@ -100,9 +100,9 @@ namespace GameOfLife
                 }
 
 
-                for (int i = 0; i < oldValue; i++)
+                for (int i = 0; i < oldBoardSize; i++)
                 {
-                    for (int j = oldValue; j < newValue; j++)
+                    for (int j = oldBoardSize; j < newBoardSize; j++)
                     {
                         Cell cell = new Cell();
                         cell.SetupDefaultCoordinates(i, j);
@@ -111,10 +111,10 @@ namespace GameOfLife
                     }
                 }
 
-                for (int i = oldValue; i < newValue; i++)
+                for (int i = oldBoardSize; i < newBoardSize; i++)
                 {
                     List<Cell> listOfRowCells = new List<Cell>();
-                    for (int j = 0; j < newValue; j++)
+                    for (int j = 0; j < newBoardSize; j++)
                     {
                         Cell cell = new Cell();
                         cell.SetupDefaultCoordinates(i, j);
@@ -125,11 +125,11 @@ namespace GameOfLife
                     listOfCells.Add(listOfRowCells);
                 }
             }
-            else if (differenceOldVsNewValue < 0)
+            else if (differenceOfBoardSize < 0)
             {
-                for (int i = oldValue - 1; i >= newValue; i--)
+                for (int i = oldBoardSize - 1; i >= newBoardSize; i--)
                 {
-                    for (int j = oldValue - 1; j >= 0; j--)
+                    for (int j = oldBoardSize - 1; j >= 0; j--)
                     {
                         gridGameSpaceReference.Children.Remove(listOfCells[i][j]);
                     }
@@ -137,21 +137,21 @@ namespace GameOfLife
                     listOfCells.Remove(listOfCells[i]);
                 }
 
-                for (int i = 0; i < newValue; i++)
+                for (int i = 0; i < newBoardSize; i++)
                 {
-                    for (int j = oldValue - 1; j >= newValue; j--)
+                    for (int j = oldBoardSize - 1; j >= newBoardSize; j--)
                     {
                         gridGameSpaceReference.Children.Remove(listOfCells[i][j]);
                         listOfCells[i].Remove(listOfCells[i][j]);
                     }
                 }
 
-                for (int i = oldValue - 1; i >= newValue; i--)
+                for (int i = oldBoardSize - 1; i >= newBoardSize; i--)
                 {
                     gridGameSpaceReference.RowDefinitions.Remove(gridGameSpaceReference.RowDefinitions[i]);
                 }
 
-                for (int i = oldValue - 1; i >= newValue; i--)
+                for (int i = oldBoardSize - 1; i >= newBoardSize; i--)
                 {
                     gridGameSpaceReference.ColumnDefinitions.Remove(gridGameSpaceReference.ColumnDefinitions[i]);
                 }
@@ -183,7 +183,7 @@ namespace GameOfLife
             {
                 for (int j = 0; j < gameSettings.ListOfBoolCells[i].Count; j++)
                 {
-                    if (gameSettings.ListOfBoolCells[i][j] == true )
+                    if (gameSettings.ListOfBoolCells[i][j] == true)
                     {
                         listOfCells[i][j].ChangeToAlive();
                     }
@@ -193,8 +193,14 @@ namespace GameOfLife
                     }
                 }
             }
-            
         }
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
