@@ -92,13 +92,9 @@
         <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
-      <Resource Include="Graphics\icon.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Resource>
       <Resource Include="Graphics\circle.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Resource>
-      <Content Include="Properties\dust_spell_witchcraft_wizard_halloween_icon_193745.ico" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
