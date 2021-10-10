@@ -17,11 +17,6 @@
                 <Separator />
                 <MenuItem Header="Exit" Click="Exit_OnClick" />
             </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem Command="Cut" />
-                <MenuItem Command="Copy" />
-                <MenuItem Command="Paste" />
-            </MenuItem>
         </Menu>
 
         <Grid DockPanel.Dock="Top" Name="GridGameSpace" Background="White" Width="600" Height="600" />
