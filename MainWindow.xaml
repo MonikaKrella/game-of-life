@@ -30,13 +30,13 @@
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top" Margin="0,10,0,10">
                         <TextBlock DockPanel.Dock="Right">Board Size</TextBlock>
-                        <TextBox
+                        <TextBlock
                             Text="{Binding ElementName=sliderBoardSize, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                            DockPanel.Dock="Right" TextAlignment="Right" Width="20" Height="20" />
+                            DockPanel.Dock="Right" TextAlignment="Center" Width="20" />
                         <TextBlock DockPanel.Dock="Right">x</TextBlock>
-                        <TextBox
+                        <TextBlock
                             Text="{Binding ElementName=sliderBoardSize, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                            DockPanel.Dock="Right" TextAlignment="Right" Width="20" Height="20" />
+                            DockPanel.Dock="Right" TextAlignment="Center" Width="20" />
                         <Slider Minimum="5" Maximum="50" TickPlacement="BottomRight" TickFrequency="1"
                                 IsSnapToTickEnabled="True" Name="sliderBoardSize" Width="190" Value="{Binding BoardSize}"
                                  />
@@ -66,9 +66,9 @@
                     </StackPanel>
                     <DockPanel DockPanel.Dock="Bottom">
                         <TextBlock DockPanel.Dock="Right">sec</TextBlock>
-                        <TextBox
-                            Text="{Binding ElementName=frequencyOfChangingGenerations, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                            DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                        <TextBlock
+                            Text="{Binding ElementName=frequencyOfChangingGenerations, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                            DockPanel.Dock="Right" TextAlignment="Right" Width="40" Margin="0,0,5,0"/>
                         <Slider Minimum="0.05" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.05"
                                 IsSnapToTickEnabled="True" Name="frequencyOfChangingGenerations" Value="{Binding TimeInterval}"/>
 

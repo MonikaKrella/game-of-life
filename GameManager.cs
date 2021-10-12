@@ -11,6 +11,10 @@ namespace GameOfLife
     public class GameManager : INotifyPropertyChanged
     {
         private const int MILISECONDS_IN_SECOND = 1000;
+        private const int MIN_VALUE_OF_BOARDSIZE = 5;
+        private const int MAX_VALUE_OF_BOARDSIZE = 50;
+        private const float MIN_TIME_INTERVAL = 0.05f;
+        private const float MAX_TIME_INTERVAL = 1;
 
         //=======PROPERTY & CLASS FIELDS===============================================================================
         private readonly Grid gridGameSpaceReference;
@@ -25,6 +29,15 @@ namespace GameOfLife
             get { return _boardSize; }
             set
             {
+                if (value < MIN_VALUE_OF_BOARDSIZE)
+                {
+                    value = MIN_VALUE_OF_BOARDSIZE;
+                }
+                else if (value > MAX_VALUE_OF_BOARDSIZE)
+                {
+                    value = MAX_VALUE_OF_BOARDSIZE;
+                }
+                
                 _boardSize = value;
                 OnPropertyChanged();
                 FitBoardToCurrentSize();
@@ -38,6 +51,15 @@ namespace GameOfLife
             get { return _timeInterval; }
             set
             {
+                if (value < MIN_TIME_INTERVAL)
+                {
+                    value = MIN_TIME_INTERVAL;
+                }
+                else if (value > MAX_TIME_INTERVAL)
+                {
+                    value = MAX_TIME_INTERVAL;
+                }
+                
                 _timeInterval = value;
                 OnPropertyChanged();
                 timer.Interval = (int) (TimeInterval * MILISECONDS_IN_SECOND);
